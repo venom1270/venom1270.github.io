@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="BlackjackSimulator">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/BlackjackSimulator_jar/BlackjackSimulator.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
