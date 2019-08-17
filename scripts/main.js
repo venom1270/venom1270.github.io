@@ -27,21 +27,26 @@ function initGui() {
     gui.statChips = document.getElementById("statChips");
     gui.inBet = document.getElementById("inBet");
     gui.bBet = document.getElementById("bBet");
+    gui.btnToggleRuleset = document.getElementById("btnToggleRuleset");
     return gui;
 }
 
 
 function start() {
+
+    var gui = initGui();
+
     if (game != null) {
         game.clear();
-    }
+    }   
     
     var numOfDecks = document.getElementById("inNumberOfDecks").value;
     console.log(numOfDecks);
 
     if (numOfDecks >= 1 && numOfDecks <= 8) {
+        gui.btnToggleRuleset.click();
         game = new Game();
-        game.run(numOfDecks, initGui());
+        game.run(numOfDecks, gui);
     } else {
         alert("Number of decks must be between 1 and 8.");
     }
@@ -50,11 +55,14 @@ function start() {
 
 function startSimulator() {
  
+    
     var numOfDecks = document.getElementById("inNumberOfDecks").value;
     console.log(numOfDecks);
 
     if (numOfDecks >= 1 && numOfDecks <= 8) {
-        simulator.start(numOfDecks, initGui());
+        var gui = initGui();
+        gui.btnToggleRuleset.click();
+        simulator.start(numOfDecks, gui);
     } else {
         alert("Number of decks must be between 1 and 8.");
     }

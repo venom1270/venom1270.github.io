@@ -78,7 +78,7 @@ class Table {
         hand.stand();
     }
     doubleDown(hand) {
-        console.log(hand);
+        //console.log(hand);
         hand.doubleDown(this.getCard());
     }
     split(hand) {
