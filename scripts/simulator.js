@@ -8,12 +8,14 @@ class Simulator {
     cols = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "A"];
 
     playsText = {}; // Text to display for each Play
+    playsClass = {}; // CSS class to assign each Play
 
     game = null; // Game object
 
     constructor(strategyDiv, gui) {
         this.generateStrategyTable(strategyDiv);
         this.initStrategy();
+        this.colorStrategyTable(strategyDiv);
         this.gui = gui;
         this.game = new Game();
         console.log(this.strategy);
@@ -25,9 +27,9 @@ class Simulator {
         this.game.newRound();
 
         setInterval(this.makeMove.bind(this), 1);
-        for (let i = 0; i < 1000000; i++) {
+        /*for (let i = 0; i < 1000000; i++) {
             this.makeMove();
-        }
+        }*/
     }
 
     makeMove() {
@@ -54,10 +56,17 @@ class Simulator {
     generateStrategyTable(strategyDiv) {
         this.playsText[Play.HIT] = "H";
         this.playsText[Play.STAND] = "S";
-        this.playsText[Play.DOUBLE_DOWN] = "D";
+        //this.playsText[Play.DOUBLE_DOWN] = "D";
         this.playsText[Play.SPLIT] = "P";
         this.playsText[Play.DOUBLE_DOWN_OR_HIT] = "Dh";
         this.playsText[Play.DOUBLE_DOWN_OR_STAND] = "Ds";
+
+        this.playsClass[Play.HIT] = "bg-success";
+        this.playsClass[Play.STAND] = "bg-danger";
+        this.playsClass[Play.DOUBLE_DOWN] = "bg-warning";
+        this.playsClass[Play.SPLIT] = "bg-info";
+        this.playsClass[Play.DOUBLE_DOWN_OR_HIT] = "bg-warning";
+        this.playsClass[Play.DOUBLE_DOWN_OR_STAND] = "bg-secondary";
 
         let tableDiv = strategyDiv
         let tableString = "";
@@ -71,13 +80,33 @@ class Simulator {
             this.cols.forEach(function(colEl) {
                 tableString += "<td><select id=\"" + rowEl + "_" + colEl + "\">";
                 for (let key in Play) {
-                    tableString += "<option value=\"" + key + "\">" + this.playsText[key] + "</option>";
+                    if (key == Play.DOUBLE_DOWN) continue;
+                    tableString += "<option class=\"" + this.playsClass[key] + "\" value=\"" + key + "\">" + this.playsText[key] + "</option>";
                 }
                 tableString += "</select></td>";
             }.bind(this));
         }.bind(this));
         tableString += "</table>";
         tableDiv.innerHTML = tableString;
+    }
+
+    colorStrategyTable() {
+
+        this.rows.forEach(function(rowEl) {
+            this.cols.forEach(function(colEl) {
+                let currentElement = "#" + rowEl + "_" + colEl;
+                let selectedItem = $(currentElement + " :selected");
+                console.log(currentElement);
+                $(currentElement).css('backgroundColor', selectedItem.css('backgroundColor'));
+                $(currentElement).change(function() {
+                    let selectedItem = $(this).find("option:selected");
+                    $(this).css('backgroundColor', selectedItem.css('backgroundColor'));
+                });
+            }.bind(this));
+        }.bind(this));
+
+
+        
     }
 
     initStrategy() {

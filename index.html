@@ -1,10 +1,13 @@
-<html>
+<!doctype html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <title></title>
         <meta name="author" content="ZS">
         <meta name="description" content="Blackjack Simulator with GUI">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link href="style/css.css" rel="stylesheet">
         <script src="scripts/main.js"></script>
         <script src="scripts/card.js"></script>
@@ -19,89 +22,180 @@
 
     <body>
 
-        <h1>Blackjack</h1>
 
-        <div>Select number of decks and input your bet below.</div>
-
-        <div>
-            <input id="inNumberOfDecks" min="1" max="8" style="width:150px;" placeholder="Number of decks" type="number" />
-            <button onclick="start()">NEW GAME</button> 
-            <button onclick="startSimulator()">NEW SIMULATION</button> 
-        </div>
-
-        <div id="strategyMaker">
-
-            <table>
-                <thead>
-                    <tr><th>YOU \ DEALER</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>A</th></tr>
-                </thead>
-                <tr>
-                    <th>5</th>
-                    <td><select> <option value="QWE">TEST</option> </select></td>
-                    <td><select> <option value="QWE">TEST</option> </select></td>
-                    <td><select> <option value="QWE">TEST</option> </select></td>
-                    <td><select> <option value="QWE">TEST</option> </select></td>
-                    <td><select> <option value="QWE">TEST</option> </select></td>
-                    <td><select> <option value="QWE">TEST</option> </select></td>
-                    <td><select> <option value="QWE">TEST</option> </select></td>
-                    <td><select> <option value="QWE">TEST</option> </select></td>
-                    <td><select> <option value="QWE">TEST</option> </select></td>
-                    <td><select> <option value="QWE">TEST</option> </select></td>
-                </tr>
-            </table>
-
-        </div>
-
-
-        <div>
-            <h2>Dealer's hand</h2>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Blackjack</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             
-            <input id="tbDealerStatus" style="width: 1000px;" type="text" />
-            <div id="divDealerHand" class="cardSpace">
-                <img id="imgDealerFaceDownCard" style="display: none;" src="images/cards/blue_back.png" class="card" />
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <!--
+                <li class="nav-item">
+                    <a class="nav-link" href="#">TODO</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                -->
             </div>
+        </nav>
 
-        </div>
+        <main role="main" class="container">
+            
+            <p>
+                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Toggle ruleset
+                </button>
+            </p>
+            <div class="collapse show" id="collapseExample">
+                <div class="card card-body">
+                    <div>
+                        <h1>Rules</h1>
+                        Number of decks (1-8): <input id="inNumberOfDecks" min="1" max="8" style="width:150px;" placeholder="Number of decks" type="number" />
+                        
+                    </div>
+                    <br/>
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+        
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Play vs computer
+                            </button>
+                            </h2>
+                        </div>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <div>Select number of decks and input your bet below.</div>
+                                <button class="btn btn-primary" onclick="start()">NEW GAME</button> 
+                            </div>
+                        </div>
+                        </div>
+        
+        
+                        <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Simulation with strategy
+                            </button>
+                            </h2>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                            <div class="card-body">
+                            
+                                <div id="strategyMaker">
+        
+                                    <table>
+                                        <thead>
+                                            <tr><th>YOU \ DEALER</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>A</th></tr>
+                                        </thead>
+                                        <tr>
+                                            <th>5</th>
+                                            <td><select> <option value="QWE">TEST</option> </select></td>
+                                            <td><select> <option value="QWE">TEST</option> </select></td>
+                                            <td><select> <option value="QWE">TEST</option> </select></td>
+                                            <td><select> <option value="QWE">TEST</option> </select></td>
+                                            <td><select> <option value="QWE">TEST</option> </select></td>
+                                            <td><select> <option value="QWE">TEST</option> </select></td>
+                                            <td><select> <option value="QWE">TEST</option> </select></td>
+                                            <td><select> <option value="QWE">TEST</option> </select></td>
+                                            <td><select> <option value="QWE">TEST</option> </select></td>
+                                            <td><select> <option value="QWE">TEST</option> </select></td>
+                                        </tr>
+                                    </table>
+                            
+                                </div>
+        
+                                <button class="btn btn-primary" onclick="startSimulator()">NEW SIMULATION</button> 
+                            </div>
+                        </div>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>          
 
-        <div>
-            <h2>Your hand</h2>
-
-            <input id="inBet" disabled="true" type="number" min="1" max="1000" placeholder="Bet amount" style="width: 100px;" />
-            <button id="bBet" disabled="true" onclick="newRound()">BET!</button>
             <br/>
-            <input id="tbPlayerStatus" style="width: 1000px;" type="text" />
-            <div id="divPlayerHands">
 
-                <div id="divPlayerHand0" class="cardSpace">
+            <div>
+                <h2>Dealer's hand</h2>
+                
+                <input id="tbDealerStatus" class="statusText" type="text" />
+                <div id="divDealerHand" class="playingCardSpace">
+                    <img id="imgDealerFaceDownCard" style="display: none;" src="images/cards/blue_back.png" class="card" />
                 </div>
 
             </div>
-            
 
+            <div>
+                <h2>Your hand</h2>
+
+                <input id="inBet" disabled="true" type="number" min="1" max="1000" placeholder="Bet amount" style="width: 100px;" />
+                <button class="btn btn-primary" id="bBet" disabled="true" onclick="newRound()">BET!</button>
+                <br/>
+                <input id="tbPlayerStatus" class="statusText" type="text" />
+                <div id="divPlayerHands">
+
+                    <div id="divPlayerHand0" class="playingCardSpace">
+                    </div>
+
+                </div>
+                
+
+                </div>
             </div>
-        </div>
 
 
-        <div id="playerArea">
-            <button id="bHit" style="display: none;" onclick="hit()">HIT</button>
-            <button id="bStand" style="display: none;" onclick="stand()">STAND</button>
-            <button id="bDoubleDown" style="display: none;" onclick="doubleDown()">DOUBLE DOWN</button>
-            <button id="bSplit" style="display: none;" onclick="split()">SPLIT</button>
-        </div>
+            <div id="playerArea">
+                <button class="btn btn-success" id="bHit" style="display: none;" onclick="hit()">HIT</button>
+                <button class="btn btn-danger" id="bStand" style="display: none;" onclick="stand()">STAND</button>
+                <button class="btn btn-warning" id="bDoubleDown" style="display: none;" onclick="doubleDown()">DOUBLE DOWN</button>
+                <button class="btn btn-info" id="bSplit" style="display: none;" onclick="split()">SPLIT</button>
+            </div>
 
-        <br/>
+            <br/>
 
-        <div id="statsBox">
-            Wins: <span id="statWins">0</span> <br/>
-            Losses: <span id="statLosses">0</span> <br/>
-            Pushes: <span id="statPushes">0</span> <br/>
-            <hr />
-            Double downs: <span id="statDoubleDowns">0</span> <br/>
-            Splits: <span id="statSplits">0</span> <br/>
-            Games played: <span id="statGamesPlayed">0</span> <br/>
-            <hr />
-            Chips: <span id="statChips">0</span> <br/>
-        </div>
+            <div id="statsBox">
+                Wins: <span id="statWins">0</span> <br/>
+                Losses: <span id="statLosses">0</span> <br/>
+                Pushes: <span id="statPushes">0</span> <br/>
+                <hr />
+                Double downs: <span id="statDoubleDowns">0</span> <br/>
+                Splits: <span id="statSplits">0</span> <br/>
+                Games played: <span id="statGamesPlayed">0</span> <br/>
+                <hr />
+                Chips: <span id="statChips">0</span> <br/>
+            </div>
+
+        </main>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
 
     </body>
 </html>

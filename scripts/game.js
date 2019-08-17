@@ -107,7 +107,7 @@ class Game {
 
     drawCard(div, card) {
         if (this.simulation) return;
-        div.innerHTML += "<img src=\"" + card.image + "\" class=\"card\" />";
+        div.innerHTML += "<img src=\"" + card.image + "\" class=\"playingCard\" />";
     }
 
     updateGUIInitial() {
@@ -326,9 +326,9 @@ class Game {
 
     clear() {
         this.hideAllButtons();
-        this.gui.divPlayerHands.innerHTML = "<div id=\"divPlayerHand0\" class=\"cardSpace\"></div>";
+        this.gui.divPlayerHands.innerHTML = "<div id=\"divPlayerHand0\" class=\"playingCardSpace\"></div>";
         this.gui.divPlayerHandArray[0] = document.getElementById("divPlayerHand0");
-        this.gui.divDealerHand.innerHTML = "<img id=\"imgDealerFaceDownCard\" style=\"display: none;\" src=\"images/cards/blue_back.png\" class=\"card\" />";
+        this.gui.divDealerHand.innerHTML = "<img id=\"imgDealerFaceDownCard\" style=\"display: none;\" src=\"images/cards/blue_back.png\" class=\"playingCard\" />";
 
         this.gui.statWins.innerHTML = "0";
         this.gui.statLosses.innerHTML = "0";
@@ -356,7 +356,7 @@ class Game {
         let idString = "divPlayerHand" + id;
         // Append div container
         let divNewHand = document.createElement("div");
-        divNewHand.className = "cardSpace";
+        divNewHand.className = "playingCardSpace";
         divNewHand.id = idString;
         this.gui.divPlayerHands.appendChild(divNewHand);
         // Save it's reference

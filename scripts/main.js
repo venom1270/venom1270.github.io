@@ -83,3 +83,4 @@ function split() {
     game.makePlay(Play.SPLIT, game.getPlayerHand());
     //checkTable();
 }
+

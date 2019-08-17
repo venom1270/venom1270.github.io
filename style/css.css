@@ -1,10 +1,10 @@
-.cardSpace {
-    width: 80%;
+.playingCardSpace {
+    width: 100%;
     height:205px;
     position: relative; /* We need this so top align works for .scoreText */
 }
 
-.card {
+.playingCard {
     height: 200px;
 }
 
@@ -12,19 +12,60 @@
     background-color: #f2f2f2;
 }
 
+body {
+    /*padding: 50px;*/
+}
+
+main {
+    margin-top: 15px;
+}
+
 .scoreText {
     position: absolute;
     right: 10px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     /*font-family: cursive;*/
-    font-size: 72;
+    font-size: 72px;
     color: darkgoldenrod;
     top: 20%;
 }
 
+.statusText {
+    width: 100%;
+}
+
+th {
+    text-align: center;
+}
+
 #statsBox {
-    border: 2px solid black;
-    width: 150px;
+    border: 2px solid silver;
+    border-radius: 6px;
+    width: 250px;
     padding: 2px;
     padding-left: 5px;
+    position: fixed;
+    right: 70px;
+    top: 10%;
+    background-color: whitesmoke;
+}
+
+/* Strategy table colors */
+.strategyTableH {
+    background-color: Yellow;
+}
+.strategyTableS {
+    background-color: Red;
+}
+.strategyTableD {
+    background-color: green;
+}
+.strategyTableP {
+    background-color: gray;
+}
+.strategyTableDs {
+    background-color: Pink;
+}
+.strategyTableDh {
+    background-color: orange;
 }
