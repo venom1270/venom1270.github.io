@@ -96,7 +96,7 @@ class Simulator {
             this.cols.forEach(function(colEl) {
                 let currentElement = "#" + rowEl + "_" + colEl;
                 let selectedItem = $(currentElement + " :selected");
-                console.log(currentElement);
+                //console.log(currentElement);
                 $(currentElement).css('backgroundColor', selectedItem.css('backgroundColor'));
                 $(currentElement).change(function() {
                     let selectedItem = $(this).find("option:selected");

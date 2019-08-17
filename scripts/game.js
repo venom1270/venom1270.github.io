@@ -44,10 +44,10 @@ class Game {
     newRound() {
 
         // TODO: decouple UI from logic
-        /*if (this.gui.inBet.value <= 0 || this.chips < this.gui.inBet.value) {
+        if (!this.simulation && (this.gui.inBet.value <= 0 || this.chips < this.gui.inBet.value)) {
             alert("Invalid bet! Check if you have enough chips.");
             return;
-        }*/
+        }
 
         this.currentPlayerHandIndex = 0;
 
@@ -82,8 +82,14 @@ class Game {
     }
 
     enableBetting(b) {
-        this.gui.inBet.disabled = !b;
-        this.gui.bBet.disabled = !b;
+        if (this.simulation) {
+            this.gui.inBet.disabled = true;
+            this.gui.bBet.disabled = true;
+        } else {
+            this.gui.inBet.disabled = !b;
+            this.gui.bBet.disabled = !b;
+        }
+        
         this.bettingEnabled = b;
     }
 
