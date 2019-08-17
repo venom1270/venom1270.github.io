@@ -1,8 +1,9 @@
-document.onload = function() {
-    test();
+window.onload = function() {
+    simulator = new Simulator(document.getElementById("strategyMaker"), initGui());
 }
 
 var game = null;
+var simulator = null;
 
 function initGui() {
     var gui = {}
@@ -20,14 +21,17 @@ function initGui() {
     gui.statWins = document.getElementById("statWins");
     gui.statLosses = document.getElementById("statLosses");
     gui.statPushes = document.getElementById("statPushes");
+    gui.statDoubleDowns = document.getElementById("statDoubleDowns");
+    gui.statSplits = document.getElementById("statSplits");
+    gui.statGamesPlayed = document.getElementById("statGamesPlayed");
     gui.statChips = document.getElementById("statChips");
     gui.inBet = document.getElementById("inBet");
     gui.bBet = document.getElementById("bBet");
     return gui;
 }
 
-function start() {
 
+function start() {
     if (game != null) {
         game.clear();
     }
@@ -42,7 +46,18 @@ function start() {
         alert("Number of decks must be between 1 and 8.");
     }
 
+}
 
+function startSimulator() {
+ 
+    var numOfDecks = document.getElementById("inNumberOfDecks").value;
+    console.log(numOfDecks);
+
+    if (numOfDecks >= 1 && numOfDecks <= 8) {
+        simulator.start(numOfDecks, initGui());
+    } else {
+        alert("Number of decks must be between 1 and 8.");
+    }
 }
 
 function newRound() {

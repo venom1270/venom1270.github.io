@@ -6,6 +6,8 @@ class Game {
     wins = 0; // int
     losses = 0; // int
     pushes = 0; // int
+    doubleDowns = 0; // int
+    splits = 0; // int
     gamesPlayed = 0; // int
     splits = 0; // int
 
@@ -17,11 +19,14 @@ class Game {
 
     currentPlayerHandIndex = 0;
 
+    bettingEnabled = false; // flag if betting is enabled (for simulator)
+    simulation = false; // flag if this is a simulation
+
     constructor() {
 
     }
 
-    run (numOfDecks=1, gui) {
+    run (numOfDecks=1, gui, simulation=false) {
 
         this.gui = gui;
         this.chips = 1000.0;
@@ -29,6 +34,8 @@ class Game {
 
         this.gui.inBet.disabled = false;
         this.gui.bBet.disabled = false;
+
+        this.simulation = simulation;
         
         this.enableBetting(true);
 
@@ -36,10 +43,11 @@ class Game {
 
     newRound() {
 
-        if (this.gui.inBet.value <= 0 || this.chips < this.gui.inBet.value) {
+        // TODO: decouple UI from logic
+        /*if (this.gui.inBet.value <= 0 || this.chips < this.gui.inBet.value) {
             alert("Invalid bet! Check if you have enough chips.");
             return;
-        }
+        }*/
 
         this.currentPlayerHandIndex = 0;
 
@@ -65,13 +73,18 @@ class Game {
             pHand.possiblePlays.splice(0, pHand.possiblePlays.length);
             this.updateGui();
             this.playDealerHand();
-            setTimeout(() => this.calculateScore(), 1000);
+            if (this.simulation) {
+                this.calculateScore()
+            } else {
+                setTimeout(() => this.calculateScore(), 1000);
+            } 
         }
     }
 
     enableBetting(b) {
         this.gui.inBet.disabled = !b;
         this.gui.bBet.disabled = !b;
+        this.bettingEnabled = b;
     }
 
     hideAllButtons() {
@@ -84,7 +97,7 @@ class Game {
     showDealerFaceDownCard(show) {
         this.gui.imgDealerFaceDownCard = document.getElementById("imgDealerFaceDownCard");
         // Not sure why this method only works for the first time... ?
-        console.log(this.gui.imgDealerFaceDownCard == document.getElementById("imgDealerFaceDownCard"));
+        //console.log(this.gui.imgDealerFaceDownCard == document.getElementById("imgDealerFaceDownCard"));
         if (show) {
             this.gui.imgDealerFaceDownCard.style.display = "inline";
         } else {
@@ -93,10 +106,13 @@ class Game {
     }
 
     drawCard(div, card) {
+        if (this.simulation) return;
         div.innerHTML += "<img src=\"" + card.image + "\" class=\"card\" />";
     }
 
     updateGUIInitial() {
+        if (this.simulation) return;
+        
         this.showDealerFaceDownCard(true);
         this.drawCard(this.gui.divDealerHand, this.table.dealerHand.cards[1]);
         this.drawCard(this.gui.divPlayerHandArray[0], this.getPlayerHand().cards[0]);
@@ -112,7 +128,8 @@ class Game {
     
     updateGui() {
 
-        
+        if (this.simulation) return;
+
         let pHand = this.getPlayerHand();
     
         // Update output status
@@ -138,9 +155,11 @@ class Game {
     }
 
     selectHandGui(index) {
+        if (this.simulation) return;
         this.gui.divPlayerHandArray[index].className += " currentHand";
     }
     deselectHandGui(index) {
+        if (this.simulation) return;
         this.gui.divPlayerHandArray[index].className = this.gui.divPlayerHandArray[index].className.replace(" currentHand", "");
     }
 
@@ -148,23 +167,28 @@ class Game {
 
         let dHand = this.table.dealerHand;
         //this.showDealerFaceDownCard(false);
-        this.gui.divDealerHand.innerHTML = "";
-        this.drawCard(this.gui.divDealerHand, dHand.cards[0]);
-        this.drawCard(this.gui.divDealerHand, dHand.cards[1]);
-        this.gui.tbDealerStatus.value = dHand.toString();
-        while(dHand.value < 17) {
-            this.table.hit(dHand);
-            this.drawCard(this.gui.divDealerHand, dHand.cards[dHand.cards.length-1]);
+        if (!this.simulation) {
+            this.gui.divDealerHand.innerHTML = "";
+            this.drawCard(this.gui.divDealerHand, dHand.cards[0]);
+            this.drawCard(this.gui.divDealerHand, dHand.cards[1]);
             this.gui.tbDealerStatus.value = dHand.toString();
         }
+        while(dHand.value < 17) {
+            this.table.hit(dHand);
+            if (!this.simulation) {
+                this.drawCard(this.gui.divDealerHand, dHand.cards[dHand.cards.length-1]);
+                this.gui.tbDealerStatus.value = dHand.toString();
+            }  
+        }
         this.table.stand(dHand);
-
     }
 
     calculateScore() {
 
         let dHand = this.table.dealerHand;
         let pHands = this.table.playerHands;
+
+        //console.log("Hands to score: ", pHands.length);
 
         pHands.forEach(function(pHand, i) {
             if (pHand.blackjack && dHand.blackjack) {
@@ -185,9 +209,11 @@ class Game {
                     console.log("Scoring error!");
                 }
             }
+            //console.log("Scoring ", i);
         }.bind(this));
 
-        
+        //console.log("SCORING OVER");
+        this.gamesPlayed++;
 
         this.updateStatsGUI();
         this.enableBetting(true);
@@ -218,6 +244,7 @@ class Game {
     }
 
     drawScoreText(div, text) {
+        if (this.simulation) return;
         let scoreText = document.createElement("span");
         scoreText.className = "scoreText";
         scoreText.innerHTML = text;
@@ -228,18 +255,35 @@ class Game {
         this.gui.statWins.innerHTML = this.wins;
         this.gui.statLosses.innerHTML = this.losses;
         this.gui.statPushes.innerHTML = this.pushes;
+        this.gui.statDoubleDowns.innerHTML = this.doubleDowns;
+        this.gui.statSplits.innerHTML = this.splits;
+        this.gui.statGamesPlayed.innerHTML = this.gamesPlayed;
         this.gui.statChips.innerHTML = this.chips;
     }
 
     makePlay(play, hand) {
+
+        if (play == Play.DOUBLE_DOWN_OR_HIT) {
+            if (hand.possiblePlays.includes(Play.DOUBLE_DOWN)) {
+                play = Play.DOUBLE_DOWN;
+            } else {
+                play = Play.HIT;
+            }
+        } else if (play == Play.DOUBLE_DOWN_OR_STAND) {
+            if (hand.possiblePlays.includes(Play.DOUBLE_DOWN)) {
+                play = Play.DOUBLE_DOWN;
+            } else {
+                play = Play.STAND;
+            }
+        }
 
         if (hand.possiblePlays.includes(play)) {
 
             switch (play) {
                 case Play.HIT: this.table.hit(hand); this.handleHitGui(hand); break;
                 case Play.STAND: this.table.stand(hand); break;
-                case Play.DOUBLE_DOWN: this.table.doubleDown(hand); this.drawCard(this.gui.divPlayerHandArray[this.currentPlayerHandIndex], hand.cards[hand.cards.length-1]); break;
-                case Play.SPLIT: this.table.split(hand); this.handleSplitGui(); break;
+                case Play.DOUBLE_DOWN: this.doubleDowns++; this.table.doubleDown(hand); this.drawCard(this.gui.divPlayerHandArray[this.currentPlayerHandIndex], hand.cards[hand.cards.length-1]); break;
+                case Play.SPLIT: this.splits++; this.table.split(hand); this.handleSplitGui(); break;
             }
 
             this.updateGui();
@@ -252,27 +296,27 @@ class Game {
                     // Increase index
                     this.currentPlayerHandIndex++;
                     pHand = this.getPlayerHand();
-                    // If player doesn't have any more hands, play dealer
-                    // Otherwise update GUI with increased value if currentPlayerHandIndex
-                    
                 }
+                // If player doesn't have any more hands, play dealer
+                // Otherwise update GUI with increased value if currentPlayerHandIndex
                 if (this.table.playerHands.length <= this.currentPlayerHandIndex) {
                     this.playDealerHand();
-                    setTimeout(() => this.calculateScore(), 1000);
+                    if (this.simulation) {
+                        this.calculateScore()
+                    } else {
+                        setTimeout(() => this.calculateScore(), 1000);
+                    }
+                    
                 } else {
                     this.selectHandGui(this.currentPlayerHandIndex);
-                    console.log("QWEQWE");
+                    //console.log("QWEQWE");
                     this.updateGui();
                 }
             }
 
-            
-
-            
-
-
         } else {
             alert("Invalid play!");
+            console.log(play);
         }
     }
 
@@ -289,6 +333,9 @@ class Game {
         this.gui.statWins.innerHTML = "0";
         this.gui.statLosses.innerHTML = "0";
         this.gui.statPushes.innerHTML = "0";
+        this.gui.statDoubleDowns.innerHTML = "0";
+        this.gui.statSplits.innerHTML = "0";
+        this.gui.statGamesPlayed.innerHTML = "0";
         this.gui.statChips.innerHTML = "0";
 
         this.gui.tbPlayerStatus.value = "";
@@ -351,5 +398,11 @@ class Game {
     }
     get currentPlayerHandIndex() {
         return this.currentPlayerHandIndex;
+    }
+    get strategyValue() {
+        return [this.table.playerHands[this.currentPlayerHandIndex].toValueString(), this.table.getDealerFaceUpStringValue()];
+    }
+    get bettingEnabled() {
+        return this.bettingEnabled;
     }
 }

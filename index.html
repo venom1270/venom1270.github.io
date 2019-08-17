@@ -13,6 +13,7 @@
         <script src="scripts/hand.js"></script>
         <script src="scripts/table.js"></script>
         <script src="scripts/game.js"></script>
+        <script src="scripts/simulator.js"></script>
     </head>
 
 
@@ -25,9 +26,31 @@
         <div>
             <input id="inNumberOfDecks" min="1" max="8" style="width:150px;" placeholder="Number of decks" type="number" />
             <button onclick="start()">NEW GAME</button> 
+            <button onclick="startSimulator()">NEW SIMULATION</button> 
         </div>
 
-        
+        <div id="strategyMaker">
+
+            <table>
+                <thead>
+                    <tr><th>YOU \ DEALER</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>A</th></tr>
+                </thead>
+                <tr>
+                    <th>5</th>
+                    <td><select> <option value="QWE">TEST</option> </select></td>
+                    <td><select> <option value="QWE">TEST</option> </select></td>
+                    <td><select> <option value="QWE">TEST</option> </select></td>
+                    <td><select> <option value="QWE">TEST</option> </select></td>
+                    <td><select> <option value="QWE">TEST</option> </select></td>
+                    <td><select> <option value="QWE">TEST</option> </select></td>
+                    <td><select> <option value="QWE">TEST</option> </select></td>
+                    <td><select> <option value="QWE">TEST</option> </select></td>
+                    <td><select> <option value="QWE">TEST</option> </select></td>
+                    <td><select> <option value="QWE">TEST</option> </select></td>
+                </tr>
+            </table>
+
+        </div>
 
 
         <div>
@@ -72,6 +95,11 @@
             Wins: <span id="statWins">0</span> <br/>
             Losses: <span id="statLosses">0</span> <br/>
             Pushes: <span id="statPushes">0</span> <br/>
+            <hr />
+            Double downs: <span id="statDoubleDowns">0</span> <br/>
+            Splits: <span id="statSplits">0</span> <br/>
+            Games played: <span id="statGamesPlayed">0</span> <br/>
+            <hr />
             Chips: <span id="statChips">0</span> <br/>
         </div>
 

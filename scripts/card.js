@@ -47,6 +47,9 @@ function CardValue(value) {
 }
 
 class Card {
+
+    value = null;
+    suit = null;
     
     constructor(value, suit) {
         this.value = value;
@@ -65,6 +68,10 @@ class Card {
 
     toString() {
         return this.value + " OF " + this.suit;
+    }
+
+    get value() {
+        return this.value;
     }
 
 }

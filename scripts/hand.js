@@ -95,7 +95,7 @@ class Hand {
     }
 
     toValueString() {
-        if (this.same && this.cards[0] == Value.ACE) {
+        if (this.same && this.cards[0].value == Value.ACE) {
             return "A-A";
         }
         if (this.same) {

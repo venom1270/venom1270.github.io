@@ -54,10 +54,10 @@ class Table {
 
     deal() {
         this.playerHands[0].add(this.getCard());
-        //this.playerHands[0].add(new Card(Value.TEN, Suit.SPADES));
+        //this.playerHands[0].add(new Card(Value.ACE, Suit.SPADES));
         this.dealerHand.add(this.getCard());
         this.playerHands[0].add(this.getCard());
-        //this.playerHands[0].add(new Card(Value.TEN, Suit.SPADES));
+        //this.playerHands[0].add(new Card(Value.ACE, Suit.SPADES));
         this.dealerHand.add(this.getCard());
     }
 
@@ -109,11 +109,22 @@ class Table {
         this.playerHands[0].betAmount = bet;
     }
 
+    getDealerFaceUpStringValue() {
+        let v = CardValue(this.dealerHand.cards[1].value);
+        if (v == 11) {
+            v = "A"
+        } else {
+            v = String(v);
+        }
+        return v;
+    }
+
     get playerHands() {
         return this.playerHands;
     }
     get dealerHand() {
         return this.dealerHand;
     }
+
 
 }
